@@ -1,0 +1,13 @@
+Unofficial fork of git-mediawiki.
+
+The official version is maintained in Git's own repository (in contrib/mw-to-git/).
+
+For upstream documentation, see
+https://github.com/Git-Mediawiki/Git-Mediawiki/wiki.
+
+You can install this locally under your user account:
+
+ 1 Rename/symlink git-remote-mediawiki.perl to git-remote-mediawiki, make sure
+   it's marked as executable, and add its directory to GIT_EXEC_PATH.
+ 2 Prepend the directory where the Git directory in this repository resides to
+   the environment variable PERL5LIB.
