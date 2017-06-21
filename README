@@ -11,3 +11,13 @@ You can install this locally under your user account:
    it's marked as executable, and add its directory to GIT_EXEC_PATH.
  2 Prepend the directory where the Git directory in this repository resides to
    the environment variable PERL5LIB.
+
+
+Notable additions in this fork:
+
+ - Support for wikis that use SSL client certificates for authentication:
+   Set git config setting remote.$REMOTE.mwClientCert to the path of a file
+   containing your certificate.
+
+   If the certificate is protected, you can specify the passphrase using the
+   git config setting remote.$REMOTE.mwClientCertPassword.

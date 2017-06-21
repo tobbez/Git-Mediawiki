@@ -63,11 +63,12 @@ sub connect_maybe {
 
 	my $remote_name = shift;
 	my $remote_url = shift;
-	my ($wiki_login, $wiki_password, $wiki_domain);
+	my ($wiki_login, $wiki_password, $wiki_domain, $wiki_client_cert);
 
 	$wiki_login = Git::config("remote.${remote_name}.mwLogin");
 	$wiki_password = Git::config("remote.${remote_name}.mwPassword");
 	$wiki_domain = Git::config("remote.${remote_name}.mwDomain");
+	$wiki_client_cert = Git::config("remote.${remote_name}.mwClientCert");
 
 	$wiki = MediaWiki::API->new;
 	$wiki->{config}->{api_url} = "${remote_url}/api.php";
@@ -92,6 +93,17 @@ sub connect_maybe {
 			Git::credential(\%credential, 'reject');
 			exit 1;
 		}
+	}
+
+	if ($wiki_client_cert) {
+		my %ssl_opts = (
+			'SSL_cert_file' => $wiki_client_cert,
+		);
+		my $cert_passwd = Git::config("remote.${remote_name}.mwClientCertPassword");
+		if ($cert_passwd) {
+			$ssl_opts{'SSL_passwd_cb'} = sub { $cert_passwd };
+		}
+		$wiki->{ua}->ssl_opts(%ssl_opts);
 	}
 
 	return $wiki;
